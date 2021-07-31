@@ -5,16 +5,16 @@ import net.corda.core.flows.*;
 import net.corda.core.transactions.SignedTransaction;
 
 // ******************
-// * Responder flow *
+// * TemplateResponder flow *
 // ******************
-@InitiatedBy(Initiator.class)
-public class Responder extends FlowLogic<Void> {
+@InitiatedBy(TemplateInitiator.class)
+public class TemplateResponder extends FlowLogic<Void> {
 
     //private variable
     private FlowSession counterpartySession;
 
     //Constructor
-    public Responder(FlowSession counterpartySession) {
+    public TemplateResponder(FlowSession counterpartySession) {
         this.counterpartySession = counterpartySession;
     }
 

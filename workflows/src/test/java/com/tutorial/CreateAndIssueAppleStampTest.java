@@ -2,10 +2,9 @@ package com.tutorial;
 
 import com.google.common.collect.ImmutableList;
 import com.tutorial.flows.CreateAndIssueAppleStamp;
-import com.tutorial.flows.Initiator;
+import com.tutorial.flows.TemplateInitiator;
 import com.tutorial.states.AppleStamp;
 import com.tutorial.states.TemplateState;
-import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
@@ -17,7 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.annotation.Signed;
 import java.util.concurrent.Future;
 
 public class CreateAndIssueAppleStampTest {
@@ -42,7 +40,7 @@ public class CreateAndIssueAppleStampTest {
 
     @Test
     public void dummyTest() {
-        Initiator flow = new Initiator(b.getInfo().getLegalIdentities().get(0));
+        TemplateInitiator flow = new TemplateInitiator(b.getInfo().getLegalIdentities().get(0));
         Future<SignedTransaction> future = a.startFlow(flow);
         network.runNetwork();
 

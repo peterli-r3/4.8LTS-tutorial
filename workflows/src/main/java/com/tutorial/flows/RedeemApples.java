@@ -2,6 +2,7 @@ package com.tutorial.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.tutorial.contracts.AppleStampContract;
+import com.tutorial.contracts.BasketOfAppleContract;
 import com.tutorial.states.AppleStamp;
 import com.tutorial.states.BasketOfApple;
 import net.corda.core.contracts.StateAndRef;
@@ -61,12 +62,12 @@ public class RedeemApples {
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addInputState(appleStampStateAndRef)
                     .addInputState(basketOfAppleStateAndRef)
-                    .addOutputState(output)
-                    .addCommand(new AppleStampContract.Commands.Redeem(),
+                    .addOutputState(output, BasketOfAppleContract.ID)
+                    .addCommand(new BasketOfAppleContract.Commands.Redeem(),
                             Arrays.asList(getOurIdentity().getOwningKey(),this.buyer.getOwningKey()));
 
             // Verify that the transaction is valid.
-            //txBuilder.verify(getServiceHub());
+            txBuilder.verify(getServiceHub());
 
             // Sign the transaction.
             final SignedTransaction partSignedTx = getServiceHub().signInitialTransaction(txBuilder);
@@ -107,4 +108,4 @@ public class RedeemApples {
     }
 
 }
-//flow start RedeemApplesInitiator buyer: PartyB, stampId:
+//flow start RedeemApplesInitiator buyer: Peter, stampId:

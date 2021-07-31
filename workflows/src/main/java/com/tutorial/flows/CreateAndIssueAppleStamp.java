@@ -91,5 +91,5 @@ public class CreateAndIssueAppleStamp {
 
 }
 
-//flow start CreateAndIssueAppleStampInitiator stampDescription: Fuji0472, holder: PartyB
+//flow start CreateAndIssueAppleStampInitiator stampDescription: Fuji0472, holder: Peter
 //run vaultQuery contractStateType: com.tutorial.states.AppleStamp

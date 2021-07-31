@@ -7,7 +7,8 @@ import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
 import org.jetbrains.annotations.NotNull;
 
-import static net.corda.core.contracts.ContractsDSL.requireThat;
+import static net.corda.core.contracts.ContractsDSL.requireThat; //Domain Specific Language
+
 
 public class AppleStampContract implements Contract {
 
@@ -19,6 +20,8 @@ public class AppleStampContract implements Contract {
 
         //Extract the command from the transaction.
         final CommandData commandData = tx.getCommands().get(0).getValue();
+
+        //Verify the transaction according to the intention of the transaction
         if (commandData instanceof AppleStampContract.Commands.Issue){
             AppleStamp output = tx.outputsOfType(AppleStamp.class).get(0);
             requireThat(require -> {
@@ -26,28 +29,18 @@ public class AppleStampContract implements Contract {
                 require.using("The output AppleStamp state should have clear description of the type of redeemable goods", !output.getStampDesc().equals(""));
                 return null;
             });
-        }else if (commandData instanceof AppleStampContract.Commands.Redeem) {
-            //Retrieve the output state of the transaction
-            AppleStamp input = tx.inputsOfType(AppleStamp.class).get(0);
-            BasketOfApple output = tx.outputsOfType(BasketOfApple.class).get(0);
-
-            //Using Corda DSL function requireThat to replicate conditions-checks
-            requireThat(require -> {
-                require.using("This transaction should consume one AppleStamp state and one BasketOfApple state", tx.getInputStates().size() == 2);
-                //require.using("The issuer of the Apple stamp should be the producing farm of this basket of apple", input.getIssuer().equals(output.getFarm()));
-                require.using("The basket of apple has to weight more than 0", output.getweight() > 0);
-                return null;
-            });
+        }else if(commandData instanceof BasketOfAppleContract.Commands.Redeem){
+            //Transaction verification will happen in BasketOfApple Contract
         }
         else{
-
+            //Unrecognized Command type
+            throw new IllegalArgumentException("Incorrect type of AppleStamp Commands");
         }
     }
 
     // Used to indicate the transaction's intent.
     public interface Commands extends CommandData {
-        //In our hello-world app, We will only have one command.
+        //In our hello-world app, We will have two commands.
         class Issue implements AppleStampContract.Commands {}
-        class Redeem implements AppleStampContract.Commands {}
     }
 }

@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 // ******************
-// * Initiator flow *
+// * TemplateInitiator flow *
 // ******************
 @InitiatingFlow
 @StartableByRPC
-public class Initiator extends FlowLogic<SignedTransaction> {
+public class TemplateInitiator extends FlowLogic<SignedTransaction> {
 
     // We will not use these ProgressTracker for this Hello-World sample
     private final ProgressTracker progressTracker = new ProgressTracker();
@@ -32,7 +32,7 @@ public class Initiator extends FlowLogic<SignedTransaction> {
     private Party receiver;
 
     //public constructor
-    public Initiator(Party sendTo){
+    public TemplateInitiator(Party sendTo){
         this.receiver = sendTo;
     }
 

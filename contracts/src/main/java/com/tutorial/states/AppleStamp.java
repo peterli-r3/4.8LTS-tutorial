@@ -2,7 +2,6 @@ package com.tutorial.states;
 
 import com.tutorial.contracts.AppleStampContract;
 import net.corda.core.contracts.BelongsToContract;
-import net.corda.core.contracts.ContractState;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
@@ -37,7 +36,6 @@ public class AppleStamp implements LinearState {
         this.participants = new ArrayList<AbstractParty>();
         this.participants.add(issuer);
         this.participants.add(holder);
-
     }
 
     @NotNull
