@@ -33,7 +33,7 @@ public class CreateAndIssueAppleStamp {
             /* Obtain a reference to a notary we wish to use.
              * METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
              *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
-             *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
+             *  * - For production you always want to1 use Method 2 as it guarantees the expected notary is returned.
              */
             final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
             //final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
@@ -81,8 +81,19 @@ public class CreateAndIssueAppleStamp {
                 @Override
                 @Suspendable
                 protected void checkTransaction(SignedTransaction stx) throws FlowException {
+                    /*
+                     * SignTransactionFlow will automatically verify the transaction and its signatures before signing it.
+                     * However, just because a transaction is contractually valid doesn’t mean we necessarily want to sign.
+                     * What if we don’t want to deal with the counterparty in question, or the value is too high,
+                     * or we’re not happy with the transaction’s structure? checkTransaction
+                     * allows us to define these additional checks. If any of these conditions are not met,
+                     * we will not sign the transaction - even if the transaction and its signatures are contractually valid.
+                     * ----------
+                     * For this hello-world cordapp, we will not implement any additional checks.
+                     * */
                 }
             });
+
             //Stored the transaction into data base.
             subFlow(new ReceiveFinalityFlow(counterpartySession, signedTransaction.getId()));
             return null;

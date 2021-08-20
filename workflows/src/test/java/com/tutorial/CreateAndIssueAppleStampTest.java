@@ -59,7 +59,8 @@ public class CreateAndIssueAppleStampTest {
         network.runNetwork();
 
         //successful query means the state is stored at node b's vault. Flow went through.
-        QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
+        QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria()
+                .withStatus(Vault.StateStatus.UNCONSUMED);
         AppleStamp state = b.getServices().getVaultService()
                 .queryBy(AppleStamp.class,inputCriteria).getStates().get(0).getState().getData();
         assert(state.getStampDesc().equals("HoneyCrispy 4072"));

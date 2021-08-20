@@ -1,5 +1,6 @@
 package com.tutorial.flows;
 
+import co.paralleluniverse.fibers.Suspendable;
 import com.tutorial.contracts.BasketOfAppleContract;
 import com.tutorial.states.BasketOfApple;
 import net.corda.core.flows.*;
@@ -24,6 +25,7 @@ public class PackageApples {
         }
 
         @Override
+        @Suspendable
         public SignedTransaction call() throws FlowException {
 
             /* Obtain a reference to a notary we wish to use.

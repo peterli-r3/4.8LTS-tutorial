@@ -49,13 +49,15 @@ public class RedeemApples {
                     .withStatus(Vault.StateStatus.UNCONSUMED)
                     .withRelevancyStatus(Vault.RelevancyStatus.RELEVANT);
             StateAndRef appleStampStateAndRef = getServiceHub().getVaultService().queryBy(AppleStamp.class, inputCriteria).getStates().get(0);
-            //AppleStamp input = (AppleStamp) inputStateAndRef.getState().getData();
 
             //Query output basketOfApple
-            QueryCriteria outputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
-            StateAndRef basketOfAppleStateAndRef = getServiceHub().getVaultService()
-                    .queryBy(BasketOfApple.class,outputCriteria).getStates().get(0);
+            QueryCriteria outputCriteria = new QueryCriteria.VaultQueryCriteria()
+                    .withStatus(Vault.StateStatus.UNCONSUMED)
+                    .withRelevancyStatus(Vault.RelevancyStatus.RELEVANT);
+            StateAndRef basketOfAppleStateAndRef = getServiceHub().getVaultService().queryBy(BasketOfApple.class, outputCriteria).getStates().get(0);
             BasketOfApple originalBasketOfApple = (BasketOfApple) basketOfAppleStateAndRef.getState().getData();
+
+            //Modify output to address the owner change
             BasketOfApple output = originalBasketOfApple.changeOwner(buyer);
 
             //Build Transaction
@@ -101,6 +103,7 @@ public class RedeemApples {
                 protected void checkTransaction(SignedTransaction stx) throws FlowException {
                 }
             });
+
             //Stored the transaction into data base.
             subFlow(new ReceiveFinalityFlow(counterpartySession, signedTransaction.getId()));
             return null;

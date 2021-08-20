@@ -38,6 +38,7 @@ public class ContractTests {
         });
     }
 
+    //Basket of Apple cordapp testers
     @Test
     public void StampIssuanceCanOnlyHaveOneOutput(){
         AppleStamp stamp = new AppleStamp("FUji4072", alice.getParty(),bob.getParty(),new UniqueIdentifier());

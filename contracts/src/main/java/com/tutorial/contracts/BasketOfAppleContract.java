@@ -25,10 +25,11 @@ public class BasketOfAppleContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should only output one BasketOfApple state", tx.getOutputs().size() == 1);
                 require.using("The output BasketOfApple state should have clear description of Apple product", !output.getDescription().equals(""));
-                require.using("The output BasketOfApple state should have non zero weight", output.getweight() > 0);
+                require.using("The output BasketOfApple state should have non zero weight", output.getWeight() > 0);
                 return null;
             });
-        }else if (commandData instanceof BasketOfAppleContract.Commands.Redeem) {
+        }
+        else if (commandData instanceof BasketOfAppleContract.Commands.Redeem) {
             //Retrieve the output state of the transaction
             AppleStamp input = tx.inputsOfType(AppleStamp.class).get(0);
             BasketOfApple output = tx.outputsOfType(BasketOfApple.class).get(0);
@@ -37,7 +38,7 @@ public class BasketOfAppleContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should consume two states", tx.getInputStates().size() == 2);
                 require.using("The issuer of the Apple stamp should be the producing farm of this basket of apple", input.getIssuer().equals(output.getFarm()));
-                require.using("The basket of apple has to weight more than 0", output.getweight() > 0);
+                require.using("The basket of apple has to weight more than 0", output.getWeight() > 0);
                 return null;
             });
         }

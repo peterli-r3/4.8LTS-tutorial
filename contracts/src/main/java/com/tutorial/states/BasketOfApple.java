@@ -65,7 +65,7 @@ public class BasketOfApple implements ContractState {
         return owner;
     }
 
-    public int getweight() {
+    public int getWeight() {
         return weight;
     }
 

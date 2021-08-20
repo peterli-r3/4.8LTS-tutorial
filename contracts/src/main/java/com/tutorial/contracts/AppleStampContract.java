@@ -25,7 +25,7 @@ public class AppleStampContract implements Contract {
         if (commandData instanceof AppleStampContract.Commands.Issue){
             AppleStamp output = tx.outputsOfType(AppleStamp.class).get(0);
             requireThat(require -> {
-                require.using("This transaction should only output one AppleStamp state", tx.getOutputs().size() == 1);
+                require.using("This transaction should only have one AppleStamp state as output", tx.getOutputs().size() == 1);
                 require.using("The output AppleStamp state should have clear description of the type of redeemable goods", !output.getStampDesc().equals(""));
                 return null;
             });
